@@ -1,0 +1,12 @@
+{
+  "name": "conversation-log",
+  "description": "Auto-detect and log non-development conversations (business, support, consultations) as structured Markdown files",
+  "version": "1.0.0",
+  "author": {
+    "name": "aliksir",
+    "url": "https://github.com/aliksir"
+  },
+  "homepage": "https://github.com/aliksir/conversation-log",
+  "repository": "https://github.com/aliksir/conversation-log",
+  "license": "MIT"
+}
