@@ -42,6 +42,18 @@ git clone https://github.com/aliksir/conversation-log ~/.claude/plugins/conversa
 
 引数不要。現在の会話から非開発トピックを抽出し、トピックごとに1ファイル保存します。
 
+### セッション終了時の自動実行
+
+セッション終了前に自動で `/conversation-log` を実行するには、`CLAUDE.md` またはメモリのセッション管理設定に以下を追加します:
+
+```yaml
+session:
+  end: ["/conversation-log", "/handover"]
+  auto_approve: ["/conversation-log", "/handover"]
+```
+
+これにより、セッションのコンテキストが失われる前に非開発会話が自動で保存されます。
+
 ## 保存フォーマット
 
 ログは作業ディレクトリの `chat-logs/` に保存されます:

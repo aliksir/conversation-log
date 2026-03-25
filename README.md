@@ -43,6 +43,18 @@ You can also trigger logging at any time:
 
 No arguments needed. The skill scans the current conversation, identifies non-development topics, and writes one Markdown file per topic.
 
+### Session-End Auto-Run
+
+To automatically run `/conversation-log` before your session handover, add it to your session management config in `CLAUDE.md` or memory:
+
+```yaml
+session:
+  end: ["/conversation-log", "/handover"]
+  auto_approve: ["/conversation-log", "/handover"]
+```
+
+This ensures non-development conversations are captured before the session context is lost.
+
 ## Saved File Format
 
 Logs are saved to `chat-logs/` in your working directory using the naming pattern:
