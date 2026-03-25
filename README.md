@@ -67,6 +67,13 @@ Each file contains:
 ## 要約
 3–5 line summary of what was discussed.
 
+## 会話の流れ
+**User**: What the user said, asked, or provided
+**Assistant**: What was proposed, drafted, or answered
+**User**: Follow-up, decisions, additional context
+...
+(Full chronological record — not summarized)
+
 ## 主要な決定事項
 - Key decisions or agreements
 
@@ -91,11 +98,34 @@ Each file contains:
 
 ### Changing the Save Directory
 
-The default save location is `chat-logs/` relative to your working directory. To change it, edit the path in `skills/conversation-log.md`.
+The default save location is `chat-logs/` relative to your working directory. To change it, edit the path in `skills/conversation-log.md`:
+
+```markdown
+# Default
+chat-logs/YYYYMMDD_{topic-name}.md
+
+# Example: save to home directory
+~/.claude/chat-logs/YYYYMMDD_{topic-name}.md
+
+# Example: project subfolder
+docs/conversations/YYYYMMDD_{topic-name}.md
+```
+
+Alternatively, add this to your project's `CLAUDE.md` to override per-project:
+
+```markdown
+## conversation-log settings
+conversation_log_dir: "~/my-chat-logs"
+```
 
 ### Disabling Auto-Detection
 
 To turn off automatic prompts while keeping the `/conversation-log` command available, remove or rename `rules/auto-detect-chat.md`.
+
+## Language
+
+- Log output format uses Japanese section headers (会話ログ, 要約, etc.)
+- [Japanese README](README.ja.md) is also available
 
 ## License
 
