@@ -40,17 +40,16 @@ No arguments required. When called, extract non-development topics from the curr
 {3–5行の要約。何について話し、何が明らかになったかを簡潔に記述}
 
 ## 会話の流れ
-{会話の実際のやり取りを時系列で記録する。誰が何を言ったかを再現できるレベルで書く}
 
-**User**: {ユーザーの発言・質問・提供した情報}
+**User**: {ユーザーの発言をそのまま転記。原文のニュアンスを保つ}
 
-**Assistant**: {アシスタントの回答・提案・作成した内容}
+**Assistant**: {アシスタントの回答・提案・作成した内容を転記}
 
-**User**: {ユーザーの返答・追加情報・判断}
+**User**: {ユーザーの返答・追加情報・判断を転記}
+
+**Assistant**: {続くやり取りを全て転記}
 
 ...
-
-{長い会話の場合でも省略しない。会話の流れが追えることが最優先}
 
 ## 主要な決定事項
 - {決定または合意した内容}
@@ -71,10 +70,59 @@ No arguments required. When called, extract non-development topics from the curr
 | カテゴリ | One of: `business`, `support`, `consultation`, `decision`, `other` |
 | 関連先 | Company name, service name, person name, or "不明" if unknown |
 | 要約 | 3–5 lines; factual and concise — quick overview for scanning |
-| 会話の流れ | Chronological record of the actual exchange. Reproduce what was said by whom. Do NOT summarize here — this section preserves the conversation as it happened. Include key context the user provided (pasted emails, screenshots descriptions, etc.) and the assistant's responses/proposals. For long conversations, keep all substantive exchanges; only omit pure filler ("ok", "thanks") if they add no context |
 | 主要な決定事項 | Bullet list; omit if no decisions were made |
 | 送付・作成した文面 | Block-quote any drafted messages/emails in full; omit section entirely if none |
 | 次のアクション | Checkbox list of follow-up tasks; omit if none |
+
+## 「会話の流れ」セクションのルール（厳守）
+
+このセクションが本スキルの**最重要セクション**。以下のルールを厳守すること。
+
+### 必須フォーマット
+
+全てのやり取りを `**User**:` / `**Assistant**:` の交互形式で記録する。この形式以外は禁止。
+
+### 禁止事項
+
+- ❌ 番号付きリスト（`1. 〇〇した 2. 〇〇した`）で経緯をまとめる
+- ❌ 「ユーザーが〇〇を質問し、アシスタントが〇〇と回答した」のような三人称での要約
+- ❌ 「〇〇について話し合った」のような抽象化
+- ❌ 発言の省略・圧縮（短い発言でも全件記録）
+
+### 必須事項
+
+- ✅ ユーザーの発言は**原文のニュアンスを保って転記**（口語・敬語・略語もそのまま）
+- ✅ アシスタントの回答も**実際に言った内容を転記**（提案文・説明文など）
+- ✅ ユーザーが貼り付けたメール・データ・スクリーンショットの説明は**そのまま含める**
+- ✅ アシスタントが作成した文面（メール・回答文等）は**全文転記**
+- ✅ 純粋な相槌（「ok」「了解」）のみ省略可。それ以外は全て記録
+
+### コンテキスト圧縮への対処
+
+セッション後半でコンテキスト圧縮により前半の会話が失われている場合:
+- 記憶にある範囲で最善の再現を試みる
+- 再現できない部分は `（※コンテキスト圧縮により原文不明）` と明記する
+- **要約で埋めてはならない** — 不明なら不明と書く
+
+### 正しい例
+
+```markdown
+**User**: キズナ・ばの保守契約の件なんだけど、先方から質問が3つ来てる。
+レンタルサーバーってうちが借りてるさくらの2つだけ？って聞かれてるのと、
+メールサーバーって何？って聞かれてる。あと支払い期限も。
+
+**Assistant**: 過去の調査資料を確認しました。さくらの2契約（①アプリケーションプラス名義 ②キズナば名義）のみです。メールサーバーはこの2契約の片方に同居しています...
+
+**User**: あーそれでいい。送っといて
+```
+
+### 悪い例（これをやってはいけない）
+
+```markdown
+1. 先方から3点の質問を受領（レンタルサーバーの範囲、メールサーバーとは何か、支払い期限）
+2. 過去の調査資料を読み取り、サーバー構成の全容を把握
+3. 非技術者向けに平易な文面で回答を作成
+```
 
 ## Multiple Topics
 
