@@ -129,4 +129,4 @@ To turn off automatic prompts while keeping the `/conversation-log` command avai
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+GPL-3.0 — see [LICENSE](LICENSE) for details.

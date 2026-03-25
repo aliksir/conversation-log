@@ -125,4 +125,4 @@ conversation_log_dir: "C:/Users/yourname/chat-logs"
 
 ## ライセンス
 
-MIT License — 詳細は [LICENSE](LICENSE) を参照。
+GPL-3.0 — 詳細は [LICENSE](LICENSE) を参照。
