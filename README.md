@@ -1,6 +1,6 @@
 # conversation-log
 
-A Claude Code plugin that automatically detects conversations and saves them as structured Markdown log files.
+A Claude Code skill that automatically detects conversations and saves them as structured Markdown log files.
 
 ## Why This Exists
 
@@ -10,30 +10,37 @@ Claude Code sessions are used for all kinds of work — development, business di
 
 ## Installation
 
-Install as a Claude Code plugin by adding this repository to your plugin sources:
+### Quick Install
 
 ```bash
-# From the Claude Code plugin directory
-claude plugin add https://github.com/aliksir/conversation-log
+# 1. Clone the repository
+git clone https://github.com/aliksir/conversation-log /tmp/conversation-log
+
+# 2. Install the skill
+mkdir -p ~/.claude/skills/conversation-log
+cp /tmp/conversation-log/skills/conversation-log.md ~/.claude/skills/conversation-log/SKILL.md
+
+# 3. Install the auto-detection rule (optional but recommended)
+mkdir -p ~/.claude/rules
+cp /tmp/conversation-log/rules/auto-detect-chat.md ~/.claude/rules/auto-detect-chat.md
+
+# 4. Clean up
+rm -rf /tmp/conversation-log
 ```
 
-Or clone it manually and reference the local path:
-
-```bash
-git clone https://github.com/aliksir/conversation-log ~/.claude/plugins/conversation-log
-```
-
-Once installed, the `rules/auto-detect-chat.md` rule loads automatically into every session, and the `/conversation-log` skill becomes available as a slash command.
+After installation:
+- The `/conversation-log` slash command becomes available in all sessions
+- If the rule is installed, Claude will automatically suggest saving conversations at natural break points
 
 ## Usage
 
 ### Automatic Detection
 
-The plugin monitors your conversation in the background. When it detects a qualifying exchange (3+ turns, substantive content), it will suggest saving a log at a natural break point:
+When the auto-detection rule is installed, Claude monitors your conversation in the background. When it detects a qualifying exchange (3+ turns, substantive content), it will suggest saving a log at a natural break point:
 
 > "会話が長くなってきたので、ここまでのログを保存しますか？ `/conversation-log` を実行します。"
 
-The plugin also proactively suggests saving when:
+It also proactively suggests saving when:
 
 - **Volume trigger**: The conversation reaches ~20 round-trips (to prevent context compression loss)
 - **Phase transition**: The conversation shifts topics (e.g., chat → development)
@@ -55,7 +62,7 @@ If you run `/conversation-log` multiple times in the same session on the same to
 
 ### Session-End Auto-Run
 
-To automatically run `/conversation-log` before your session handover, add it to your session management config in `CLAUDE.md` or memory:
+To automatically run `/conversation-log` before your session handover, add this to your `CLAUDE.md` or memory:
 
 ```yaml
 session:
@@ -141,9 +148,23 @@ Alternatively, add this to your project's `CLAUDE.md` to override per-project:
 conversation_log_dir: "~/my-chat-logs"
 ```
 
-### Disabling Auto-Detection
+### Uninstalling
 
-To turn off automatic prompts while keeping the `/conversation-log` command available, remove or rename `rules/auto-detect-chat.md`.
+```bash
+# Remove the skill
+rm -rf ~/.claude/skills/conversation-log
+
+# Remove the auto-detection rule
+rm ~/.claude/rules/auto-detect-chat.md
+```
+
+### Disabling Auto-Detection Only
+
+To turn off automatic prompts while keeping the `/conversation-log` command available, remove the rule file:
+
+```bash
+rm ~/.claude/rules/auto-detect-chat.md
+```
 
 ## Language
 
