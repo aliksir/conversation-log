@@ -8,22 +8,24 @@ Save the current conversation as a structured Markdown log file.
 /conversation-log
 ```
 
-No arguments required. When called, extract non-development topics from the current conversation and save them as log files.
+No arguments required. When called, extract all substantive topics from the current conversation and save them as log files.
 
 ## Behavior
 
-1. **Identify topics** — Scan the current conversation for substantive non-development exchanges. If multiple distinct topics exist, handle each separately.
+1. **Identify topics** — Scan the current conversation for all substantive exchanges (development, business, consultation, etc.). If multiple distinct topics exist, handle each separately.
 
 2. **Determine save path** — Use the format `chat-logs/YYYYMMDD_{topic-name}.md` where:
    - `YYYYMMDD` is today's date (e.g., `20260325`)
    - `{topic-name}` is a short, lowercase, hyphen-separated description (e.g., `aws-contract-renewal`)
-   - If a file with that name already exists today, append `_2`, `_3`, etc.
+   - If a **different** topic uses the same date prefix, append `_2`, `_3`, etc.
 
-3. **Create the `chat-logs/` directory** if it does not exist.
+3. **Check for existing file** — If a file with the same date and topic name already exists, **append** new conversation content following the Append Mode procedure below (append to 会話の流れ, update 要約/決定事項/次のアクション). Then skip to step 6.
 
-4. **Write the log file** using the format below.
+4. **Create the `chat-logs/` directory** if it does not exist.
 
-5. **Report** the saved file path: `ログを保存しました: chat-logs/YYYYMMDD_{topic-name}.md`
+5. **Write the log file** using the format below.
+
+6. **Report** the saved file path: `ログを保存しました: chat-logs/YYYYMMDD_{topic-name}.md`
 
 ## Log File Format
 
@@ -33,7 +35,7 @@ No arguments required. When called, extract non-development topics from the curr
 | 項目 | 内容 |
 |------|------|
 | 日時 | YYYY-MM-DD HH:MM |
-| カテゴリ | {business/support/consultation/decision/other} |
+| カテゴリ | {business/support/consultation/decision/development/other} |
 | 関連先 | {会社名・サービス名・人名 etc.} |
 
 ## 要約
@@ -67,7 +69,7 @@ No arguments required. When called, extract non-development topics from the curr
 |-------|-------------|
 | トピック | Brief descriptive title of the conversation topic |
 | 日時 | Use `YYYY-MM-DD HH:MM` format — include the time, not just the date |
-| カテゴリ | One of: `business`, `support`, `consultation`, `decision`, `other` |
+| カテゴリ | One of: `business`, `support`, `consultation`, `decision`, `development`, `other` |
 | 関連先 | Company name, service name, person name, or "不明" if unknown |
 | 要約 | 3–5 lines; factual and concise — quick overview for scanning |
 | 主要な決定事項 | Bullet list; omit if no decisions were made |
@@ -123,6 +125,31 @@ No arguments required. When called, extract non-development topics from the curr
 2. 過去の調査資料を読み取り、サーバー構成の全容を把握
 3. 非技術者向けに平易な文面で回答を作成
 ```
+
+## Append Mode
+
+When `/conversation-log` is invoked and a file with the same date and topic name already exists in `chat-logs/`:
+
+1. **Read the existing file** to find the end of the `## 会話の流れ` section.
+2. **Append** a separator and the new conversation content:
+
+```markdown
+---
+<!-- Continued: HH:MM -->
+
+**User**: {continued conversation...}
+
+**Assistant**: {continued response...}
+```
+
+3. **Update** the following sections to reflect the latest state:
+   - `## 要約` — Rewrite to cover the full conversation (original + appended)
+   - `## 主要な決定事項` — Merge new decisions with existing ones
+   - `## 次のアクション` — Update with current action items (mark completed items as done)
+
+4. **Preserve** the original metadata table (日時 stays as the first recording time).
+
+This ensures a single file per topic per day, with the full conversation history intact.
 
 ## Multiple Topics
 
