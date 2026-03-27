@@ -145,6 +145,7 @@ When `/conversation-log` is invoked and a file with the same date and topic name
 3. **Update** the following sections to reflect the latest state:
    - `## 要約` — Rewrite to cover the full conversation (original + appended)
    - `## 主要な決定事項` — Merge new decisions with existing ones
+   - `## 送付・作成した文面` — Append any new drafted messages (keep existing ones intact)
    - `## 次のアクション` — Update with current action items (mark completed items as done)
 
 4. **Preserve** the original metadata table (日時 stays as the first recording time).
