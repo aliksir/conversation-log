@@ -139,12 +139,17 @@ docs/conversations/YYYYMMDD_{topic-name}.md
 
 ```markdown
 ## conversation-log 設定
-conversation_log_dir: "C:/Users/yourname/chat-logs"
+conversation_log_dir: "~/my-chat-logs"
 ```
 
 ### 自動検出の無効化
 
 自動検出を無効にし `/conversation-log` コマンドのみ使いたい場合は、`rules/auto-detect-chat.md` を削除またはリネームしてください。
+
+## 言語
+
+- ログ出力は日本語のセクション見出し（会話ログ、要約 等）を使用
+- [English README](README.md) も利用可能
 
 ## ライセンス
 
