@@ -1,6 +1,6 @@
 # conversation-log
 
-会話を自動検出し、構造化されたMarkdownログとして保存するClaude Codeプラグインです。
+会話を自動検出し、構造化されたMarkdownログとして保存するClaude Codeスキルです。
 
 ## なぜ必要か
 
@@ -10,29 +10,37 @@ Claude Codeのセッションは開発作業だけでなく、契約交渉、ア
 
 ## インストール
 
-Claude Codeプラグインとしてインストールします:
+### クイックインストール
 
 ```bash
-claude plugin add https://github.com/aliksir/conversation-log
+# 1. リポジトリをクローン
+git clone https://github.com/aliksir/conversation-log /tmp/conversation-log
+
+# 2. スキルをインストール
+mkdir -p ~/.claude/skills/conversation-log
+cp /tmp/conversation-log/skills/conversation-log.md ~/.claude/skills/conversation-log/SKILL.md
+
+# 3. 自動検出ルールをインストール（任意・推奨）
+mkdir -p ~/.claude/rules
+cp /tmp/conversation-log/rules/auto-detect-chat.md ~/.claude/rules/auto-detect-chat.md
+
+# 4. クリーンアップ
+rm -rf /tmp/conversation-log
 ```
 
-または手動クローン:
-
-```bash
-git clone https://github.com/aliksir/conversation-log ~/.claude/plugins/conversation-log
-```
-
-インストール後、`rules/auto-detect-chat.md` が毎セッション自動ロードされ、`/conversation-log` コマンドが利用可能になります。
+インストール後:
+- `/conversation-log` スラッシュコマンドが全セッションで利用可能に
+- ルールをインストールした場合、会話の自然な区切りで自動的に保存を提案
 
 ## 使い方
 
 ### 自動検出
 
-プラグインが会話をバックグラウンドで監視します。実質的な会話（3往復以上）を検出すると、自然な区切りで保存を提案します:
+自動検出ルールがインストールされていると、Claude が会話をバックグラウンドで監視します。実質的な会話（3往復以上）を検出すると、自然な区切りで保存を提案します:
 
 > "会話が長くなってきたので、ここまでのログを保存しますか？ `/conversation-log` を実行します。"
 
-以下の条件でも自動的に保存を提案します:
+また、以下の条件でも自動的に保存を提案します:
 
 - **ボリュームトリガー**: 会話が約20往復に達した場合（コンテキスト圧縮によるロスト防止）
 - **フェーズ切替トリガー**: 話題が変わった場合（例: 雑談 → 開発タスク）
@@ -54,7 +62,7 @@ git clone https://github.com/aliksir/conversation-log ~/.claude/plugins/conversa
 
 ### セッション終了時の自動実行
 
-セッション終了前に自動で `/conversation-log` を実行するには、`CLAUDE.md` またはメモリのセッション管理設定に以下を追加します:
+セッション終了前に自動で `/conversation-log` を実行するには、`CLAUDE.md` またはメモリに以下を追加します:
 
 ```yaml
 session:
@@ -142,9 +150,23 @@ docs/conversations/YYYYMMDD_{topic-name}.md
 conversation_log_dir: "~/my-chat-logs"
 ```
 
-### 自動検出の無効化
+### アンインストール
 
-自動検出を無効にし `/conversation-log` コマンドのみ使いたい場合は、`rules/auto-detect-chat.md` を削除またはリネームしてください。
+```bash
+# スキルを削除
+rm -rf ~/.claude/skills/conversation-log
+
+# 自動検出ルールを削除
+rm ~/.claude/rules/auto-detect-chat.md
+```
+
+### 自動検出のみ無効化
+
+自動検出を無効にし `/conversation-log` コマンドのみ使いたい場合:
+
+```bash
+rm ~/.claude/rules/auto-detect-chat.md
+```
 
 ## 言語
 
