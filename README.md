@@ -1,12 +1,12 @@
 # conversation-log
 
-A Claude Code plugin that automatically detects non-development conversations and saves them as structured Markdown log files.
+A Claude Code plugin that automatically detects conversations and saves them as structured Markdown log files.
 
 ## Why This Exists
 
-Claude Code sessions are great for development work — but they are also used for business calls, support follow-ups, strategy consultations, and other substantive conversations. Those exchanges vanish when the session ends, leaving no record of decisions made, actions agreed upon, or messages drafted.
+Claude Code sessions are used for all kinds of work — development, business discussions, strategy consultations, support follow-ups, and more. Those exchanges vanish when the session ends or when context compression kicks in during long sessions, leaving no record of decisions made, actions agreed upon, or messages drafted.
 
-**conversation-log** solves this by detecting when a conversation contains non-development content and prompting you to save it before it disappears.
+**conversation-log** solves this by detecting substantive conversations and prompting you to save them before they disappear. It covers **all** conversation types — development discussions, business calls, and everything in between.
 
 ## Installation
 
@@ -29,9 +29,15 @@ Once installed, the `rules/auto-detect-chat.md` rule loads automatically into ev
 
 ### Automatic Detection
 
-The plugin monitors your conversation in the background. When it detects a qualifying non-development exchange (3+ turns, substantive content, no code changes), it will suggest saving a log at a natural break point:
+The plugin monitors your conversation in the background. When it detects a qualifying exchange (3+ turns, substantive content), it will suggest saving a log at a natural break point:
 
-> "This looks like it could be worth saving — want me to log this conversation? I can run `/conversation-log` to save a structured summary."
+> "会話が長くなってきたので、ここまでのログを保存しますか？ `/conversation-log` を実行します。"
+
+The plugin also proactively suggests saving when:
+
+- **Volume trigger**: The conversation reaches ~20 round-trips (to prevent context compression loss)
+- **Phase transition**: The conversation shifts topics (e.g., chat → development)
+- **Session end**: Before `/handover` or session wrap-up
 
 ### Manual Invocation
 
@@ -41,7 +47,11 @@ You can also trigger logging at any time:
 /conversation-log
 ```
 
-No arguments needed. The skill scans the current conversation, identifies non-development topics, and writes one Markdown file per topic.
+No arguments needed. The skill scans the current conversation, identifies topics, and writes one Markdown file per topic.
+
+### Append Mode
+
+If you run `/conversation-log` multiple times in the same session on the same topic, it **appends** to the existing file rather than creating a new one. This ensures a single continuous log per topic per day, even across multiple save points.
 
 ### Session-End Auto-Run
 
@@ -53,7 +63,7 @@ session:
   auto_approve: ["/conversation-log", "/handover"]
 ```
 
-This ensures non-development conversations are captured before the session context is lost.
+This ensures conversations are captured before the session context is lost.
 
 ## Saved File Format
 
@@ -63,7 +73,7 @@ Logs are saved to `chat-logs/` in your working directory using the naming patter
 chat-logs/YYYYMMDD_{topic-name}.md
 ```
 
-Multiple files on the same day are numbered: `_2.md`, `_3.md`, etc.
+Multiple distinct topics on the same day get separate files: `_2.md`, `_3.md`, etc.
 
 Each file contains:
 
@@ -104,6 +114,7 @@ Each file contains:
 | `support` | Account issues, application procedures, service requests |
 | `consultation` | Technical advice, strategy discussions, architecture guidance |
 | `decision` | Choices made, options evaluated, direction established |
+| `development` | Feature implementation, bug fixes, code reviews, refactoring, infrastructure changes |
 | `other` | Substantive exchanges that don't fit the above |
 
 ## Configuration
