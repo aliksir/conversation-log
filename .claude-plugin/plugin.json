@@ -1,7 +1,7 @@
 {
   "name": "conversation-log",
-  "description": "Auto-detect and log non-development conversations (business, support, consultations) as structured Markdown files",
-  "version": "1.0.0",
+  "description": "Auto-detect and log substantive conversations (business, support, consultations, decisions, development) as structured Markdown files",
+  "version": "1.0.1",
   "author": {
     "name": "aliksir",
     "url": "https://github.com/aliksir"

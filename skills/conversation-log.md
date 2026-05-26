@@ -1,3 +1,8 @@
+---
+name: conversation-log
+description: Save the current conversation as a structured Markdown log file. Auto-detects substantive conversations (business, support, consultations, decisions, development) and persists them with timestamps. Triggers on /conversation-log.
+---
+
 # Skill: /conversation-log
 
 Save the current conversation as a structured Markdown log file.

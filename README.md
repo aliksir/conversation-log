@@ -90,7 +90,7 @@ Each file contains:
 | 項目 | 内容 |
 |------|------|
 | 日時 | YYYY-MM-DD HH:MM |
-| カテゴリ | {category} |
+| カテゴリ | business / support / consultation / decision / development / other |
 | 関連先 | {company / service / person} |
 
 ## 要約
